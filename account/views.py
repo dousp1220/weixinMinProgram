@@ -47,6 +47,10 @@ def onAppLogin(request):
         user = User()
         user.username = openId
         user.password = openId
+        user.first_name = user_info.get('nickName')  # 保存昵称
+        # user.date_joined = user_info.get("regtime")  # 保存注册时间
+        user.email = user_info.get("avatarUrl")      # 保存头像
+        user.last_name = user_info.get("country") + ":::" + user_info.get("province") + ":::" + user_info.get("city")  # 保存地区
         user.save()
         user1 = user
 
@@ -56,4 +60,9 @@ def onAppLogin(request):
 
     json_string = json.dumps(user_info)
 
+    return HttpResponse(json_string)
+
+
+def hello(request):
+    json_string = json.dumps({"data": "hello word!"})
     return HttpResponse(json_string)
